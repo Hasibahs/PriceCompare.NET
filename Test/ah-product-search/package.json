@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "albert-heijn-wrapper": "^3.0.0",
+    "aldi-wrapper": "^1.0.0",
+    "coop-wrapper": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "jumbo-wrapper": "^2.1.0"
