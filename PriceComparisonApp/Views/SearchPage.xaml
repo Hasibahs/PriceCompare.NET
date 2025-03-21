@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PriceComparisonApp.Views.SearchPage"
+    Title="Search Products">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <!-- Product Name Entry -->
+            <Entry x:Name="searchEntry"
+                   Placeholder="Enter product name" />
+
+            <!-- Store Picker (Filters) -->
+            <Picker x:Name="storePicker"
+                    Title="Select Store">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Albert Heijn</x:String>
+                        <x:String>Jumbo</x:String>
+                        <x:String>Lidl</x:String>
+                        <x:String>Aldi</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!-- Search Button -->
+            <Button Text="Search"
+                    Clicked="OnSearchButtonClicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
