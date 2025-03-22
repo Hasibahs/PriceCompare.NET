@@ -1,9 +1,6 @@
 using Microsoft.Maui.Controls;
-using System;
-using System.Threading.Tasks;
-using PriceComparisonApp.Services;   // For BackendService
-using PriceComparisonApp.Models;     // For ProductResult
-using System.Collections.Generic;
+using PriceComparisonApp.Models;
+using PriceComparisonApp.Services;
 
 namespace PriceComparisonApp.Views
 {
@@ -14,36 +11,17 @@ namespace PriceComparisonApp.Views
             InitializeComponent();
         }
 
-        private async void OnSearchButtonClicked(object sender, EventArgs e)
+        private async void OnCompareClicked(object sender, EventArgs e)
         {
-            string productName = searchEntry.Text?.Trim();
-            string selectedStore = storePicker.SelectedItem as string;
+            var items = shoppingListEditor.Text;
 
-            // Basic validation
-            if (string.IsNullOrWhiteSpace(productName))
+            if (string.IsNullOrWhiteSpace(items))
             {
-                await DisplayAlert("Input Error", "Please enter a valid product name.", "OK");
+                await DisplayAlert("Missing input", "Please enter your grocery list first.", "OK");
                 return;
             }
 
-            try
-            {
-                // Call your async method from the BackendService
-                List<ProductResult> results = await BackendService.SearchProductsAsync(productName, selectedStore);
-
-                if (results == null || results.Count == 0)
-                {
-                    await DisplayAlert("No Results", "No matching products found.", "OK");
-                    return;
-                }
-
-                // Navigate to the ResultsPage, passing the product list
-                await Navigation.PushAsync(new ResultsPage(results));
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-            }
+            await Navigation.PushAsync(new ResultsPage(await BackendService.SearchProductsAsync(items, null)));
         }
     }
 }

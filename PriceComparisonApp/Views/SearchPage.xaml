@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="PriceComparisonApp.Views.SearchPage"
-    Title="Search Products">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PriceComparisonApp.Views.SearchPage"
+             BackgroundColor="#5E7B8C">
 
     <ScrollView>
-        <StackLayout Padding="20" Spacing="15">
-            <!-- Product Name Entry -->
-            <Entry x:Name="searchEntry"
-                   Placeholder="Enter product name" />
+        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="20" Spacing="20">
 
-            <!-- Store Picker (Filters) -->
-            <Picker x:Name="storePicker"
-                    Title="Select Store">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Albert Heijn</x:String>
-                        <x:String>Jumbo</x:String>
-                        <x:String>Lidl</x:String>
-                        <x:String>Aldi</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+            <Label Text="Price Comparison APP"
+                   FontSize="24"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
 
-            <!-- Search Button -->
-            <Button Text="Search"
-                    Clicked="OnSearchButtonClicked" />
+            <Label Text="See what you would pay for the same groceries at other supermarkets"
+                   FontSize="14"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Write the product name here:"
+                   FontSize="14"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <Frame CornerRadius="10" Padding="0" HasShadow="False" BackgroundColor="White" WidthRequest="300" HeightRequest="30">
+                <Editor x:Name="shoppingListEditor"
+            Placeholder="Enter your product here..."
+            HeightRequest="80"
+            BackgroundColor="Transparent"
+            TextColor="Black"
+            AutoSize="TextChanges" />
+            </Frame>
+
+            <Button Text="🔍 Compare prices"
+                    BackgroundColor="#FFC300"
+                    TextColor="Black"
+                    CornerRadius="6"
+                    WidthRequest="300"
+                     HeightRequest="30"
+                    Clicked="OnCompareClicked" />
+
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -8,8 +8,6 @@ namespace PriceComparisonApp
         public App()
         {
             InitializeComponent();
-
-            // Start the app with the SearchPage wrapped in a NavigationPage
             MainPage = new NavigationPage(new SearchPage());
         }
     }

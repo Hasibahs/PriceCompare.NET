@@ -1,6 +1,5 @@
 using Microsoft.Maui.Controls;
-using System.Collections.Generic;
-using PriceComparisonApp.Models; // ProductResult model
+using PriceComparisonApp.Models;
 
 namespace PriceComparisonApp.Views
 {
@@ -9,9 +8,12 @@ namespace PriceComparisonApp.Views
         public ResultsPage(List<ProductResult> results)
         {
             InitializeComponent();
-
-            // Bind the incoming results to the CollectionView
             resultsCollectionView.ItemsSource = results;
+        }
+
+        private async void OnBackClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }
