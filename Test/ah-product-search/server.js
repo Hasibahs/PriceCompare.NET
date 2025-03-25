@@ -16,7 +16,7 @@ const jumbo = new Jumbo();
 const aldi = new Aldi({ verbose: true });
 const coop = new Coop();
 
-// Albert Heijn search
+// Albert Heijn searchS
 app.get("/api/ah/search", async (req, res) => {
   const query = req.query.q;
   if (!query)
