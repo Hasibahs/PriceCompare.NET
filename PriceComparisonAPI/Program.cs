@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PriceComparisonAPI.Models; // We'll define these in the Models folder
 
 var builder = WebApplication.CreateBuilder(args);

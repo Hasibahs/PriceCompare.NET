@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PriceComparisonAPI.Models;
 
@@ -19,7 +19,10 @@ namespace PriceComparisonAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
-            return await _context.Products.ToListAsync();
+            // Fix: move data to memory before sorting to avoid SQLite decimal bug
+            return (await _context.Products.ToListAsync())
+                .OrderBy(p => (double)p.Price)
+                .ToList();
         }
 
         // GET: api/products/5
@@ -30,8 +33,6 @@ namespace PriceComparisonAPI.Controllers
             if (product == null) return NotFound();
             return product;
         }
-
-
 
         // POST: api/products
         [HttpPost]
@@ -81,15 +82,26 @@ namespace PriceComparisonAPI.Controllers
         {
             if (string.IsNullOrWhiteSpace(q))
             {
-                return await GetAll();
+                return await GetAll(); // Uses the fixed GetAll above
             }
 
-            var products = await _context.Products
-                .Where(p => p.Name.Contains(q) || p.Supermarket.Contains(q))
+            var query = q.ToLowerInvariant();
+
+            var matched = await _context.Products
+                .Where(p =>
+                    p.Name.ToLower().Contains(query) ||
+                    p.Supermarket.ToLower().Contains(query))
                 .ToListAsync();
 
-            return products;
-        }
+            var sorted = matched
+                .OrderBy(p =>
+                    p.Name.ToLowerInvariant().StartsWith(query) ? 0 :
+                    p.Name.ToLowerInvariant().Contains(query) ? 1 :
+                    p.Supermarket.ToLowerInvariant().Contains(query) ? 2 : 3)
+                .ThenBy(p => (double)p.Price)
+                .ToList();
 
+            return sorted;
+        }
     }
 }
