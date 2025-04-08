@@ -1,24 +1,34 @@
-﻿namespace PriceComparisonApp
+﻿using PriceComparisonApp.Models;
+using PriceComparisonApp.Services;
+
+namespace PriceComparisonApp;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        int count = 0;
+        InitializeComponent();
+    }
 
-        public MainPage()
+    private async void OnSearchButtonPressed(object sender, EventArgs e)
+    {
+        string query = ProductSearchBar.Text ?? "";
+        var results = await BackendService.SearchProductsAsync(query);
+        ProductResultsView.ItemsSource = results;
+    }
+
+    private async void OnProductTitleTapped(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is string url && !string.IsNullOrWhiteSpace(url))
         {
-            InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            try
+            {
+                await Launcher.Default.OpenAsync(new Uri(url));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Could not open link: {ex.Message}", "OK");
+            }
         }
     }
 }

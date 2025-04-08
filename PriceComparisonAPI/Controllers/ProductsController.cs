@@ -82,23 +82,32 @@ namespace PriceComparisonAPI.Controllers
         {
             if (string.IsNullOrWhiteSpace(q))
             {
-                return await GetAll(); // Uses the fixed GetAll above
+                return (await _context.Products.ToListAsync())
+                    .OrderBy(p => (double)p.Price)
+                    .ToList();
             }
 
-            var query = q.ToLowerInvariant();
+            var query = q.Trim().ToLowerInvariant();
 
             var matched = await _context.Products
                 .Where(p =>
-                    p.Name.ToLower().Contains(query) ||
-                    p.Supermarket.ToLower().Contains(query))
+                    p.Name.ToLower().Contains(query) || p.Supermarket.ToLower().Contains(query))
                 .ToListAsync();
 
             var sorted = matched
-                .OrderBy(p =>
-                    p.Name.ToLowerInvariant().StartsWith(query) ? 0 :
-                    p.Name.ToLowerInvariant().Contains(query) ? 1 :
-                    p.Supermarket.ToLowerInvariant().Contains(query) ? 2 : 3)
-                .ThenBy(p => (double)p.Price)
+                .Select(p => new
+                {
+                    Product = p,
+                    Score =
+                        p.Name.ToLowerInvariant() == query ? 0 :
+                        p.Name.ToLowerInvariant().Split(' ').Any(word => word == query) ? 1 :
+                        p.Name.ToLowerInvariant().StartsWith(query) ? 2 :
+                        p.Name.ToLowerInvariant().Contains(query) ? 3 :
+                        p.Supermarket.ToLowerInvariant().Contains(query) ? 4 : 5
+                })
+                .OrderBy(p => p.Score)
+                .ThenBy(p => (double)p.Product.Price)
+                .Select(p => p.Product)
                 .ToList();
 
             return sorted;
