@@ -31,16 +31,18 @@
                         <VerticalStackLayout Spacing="5">
 
                             <!-- ✅ Clickable Product Title -->
+                            <!-- ✅ Clickable Product Title -->
                             <Label Text="{Binding ProductName}"
-                                   FontAttributes="Bold"
-                                   TextColor="Blue"
-                                   TextDecorations="Underline">
+       FontAttributes="Bold"
+       TextColor="Blue"
+       TextDecorations="Underline">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer 
-                                        Tapped="OnProductTitleTapped"
-                                        CommandParameter="{Binding ImageUrl}" />
+            Tapped="OnProductTitleTapped"
+            CommandParameter="{Binding Link}" />
                                 </Label.GestureRecognizers>
                             </Label>
+
 
                             <!-- Product details -->
                             <Label Text="{Binding ProductDetails}" 

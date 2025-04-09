@@ -26,7 +26,7 @@ namespace PriceComparisonApp.Services
                     Price = (double)p.Price,
                     ProductName = p.Name,
                     ProductDetails = p.Size,
-                    ImageUrl = p.Link,
+                    Link = p.Link,
                     IsBestDeal = false
                 }).ToList();
 

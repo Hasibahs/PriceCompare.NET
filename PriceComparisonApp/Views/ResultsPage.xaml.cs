@@ -70,5 +70,25 @@ namespace PriceComparisonApp.Views
         {
             await Navigation.PopAsync();
         }
+
+        // ✅ New: Click handler for product title
+        private async void OnProductTitleTapped(object sender, TappedEventArgs e)
+        {
+            if (e.Parameter is string url && !string.IsNullOrWhiteSpace(url))
+            {
+                try
+                {
+                    await Launcher.Default.OpenAsync(new Uri(url));
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", $"Unable to open link: {ex.Message}", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Missing Link", "This product has no valid link.", "OK");
+            }
+        }
     }
 }

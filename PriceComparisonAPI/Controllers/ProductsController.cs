@@ -15,14 +15,36 @@ namespace PriceComparisonAPI.Controllers
             _context = context;
         }
 
+        // Helper to make sure Link has valid format
+        private string EnsureValidUrl(string link, string supermarket)
+        {
+            if (string.IsNullOrWhiteSpace(link)) return "";
+
+            if (link.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                return link;
+
+            if (supermarket.ToLower().Contains("jumbo"))
+                return $"https://www.jumbo.com{link}";
+            else if (supermarket.ToLower().Contains("ah"))
+                return $"https://www.ah.nl{link}";
+            else if (supermarket.ToLower().Contains("aldi"))
+                return $"https://www.aldi.nl{link}";
+
+            return link; // fallback
+        }
+
         // GET: api/products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
-            // Fix: move data to memory before sorting to avoid SQLite decimal bug
-            return (await _context.Products.ToListAsync())
-                .OrderBy(p => (double)p.Price)
-                .ToList();
+            var products = await _context.Products.ToListAsync();
+
+            foreach (var p in products)
+            {
+                p.Link = EnsureValidUrl(p.Link, p.Supermarket);
+            }
+
+            return products.OrderBy(p => (double)p.Price).ToList();
         }
 
         // GET: api/products/5
@@ -31,6 +53,8 @@ namespace PriceComparisonAPI.Controllers
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null) return NotFound();
+
+            product.Link = EnsureValidUrl(product.Link, product.Supermarket);
             return product;
         }
 
@@ -61,7 +85,7 @@ namespace PriceComparisonAPI.Controllers
                     return NotFound();
                 throw;
             }
-            return NoContent(); // 204
+            return NoContent();
         }
 
         // DELETE: api/products/5
@@ -73,26 +97,30 @@ namespace PriceComparisonAPI.Controllers
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            return NoContent(); // 204
+            return NoContent();
         }
 
+        // GET: api/products/search?q=...
         // GET: api/products/search?q=...
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<Product>>> Search([FromQuery] string q)
         {
             if (string.IsNullOrWhiteSpace(q))
             {
-                return (await _context.Products.ToListAsync())
-                    .OrderBy(p => (double)p.Price)
-                    .ToList();
+                var all = await _context.Products.ToListAsync();
+                FixProductLinks(all);
+                return all.OrderBy(p => (double)p.Price).ToList();
             }
 
             var query = q.Trim().ToLowerInvariant();
 
             var matched = await _context.Products
                 .Where(p =>
-                    p.Name.ToLower().Contains(query) || p.Supermarket.ToLower().Contains(query))
+                    p.Name.ToLower().Contains(query) ||
+                    p.Supermarket.ToLower().Contains(query))
                 .ToListAsync();
+
+            FixProductLinks(matched);
 
             var sorted = matched
                 .Select(p => new
@@ -112,5 +140,42 @@ namespace PriceComparisonAPI.Controllers
 
             return sorted;
         }
+
+        private void FixProductLinks(List<Product> products)
+        {
+            foreach (var p in products)
+            {
+                if (string.IsNullOrWhiteSpace(p.Link)) continue;
+
+                // Jumbo
+                if (p.Supermarket.ToLower().Contains("jumbo") && !p.Link.StartsWith("http"))
+                {
+                    if (!p.Link.StartsWith("/producten"))
+                        p.Link = "https://www.jumbo.com/producten" + (p.Link.StartsWith("/") ? p.Link : "/" + p.Link);
+                    else
+                        p.Link = "https://www.jumbo.com" + p.Link;
+                }
+
+                // Albert Heijn
+                else if (p.Supermarket.ToLower().Contains("ah") && !p.Link.StartsWith("http"))
+                {
+                    if (!p.Link.StartsWith("/producten"))
+                        p.Link = "https://www.ah.nl/producten/product" + (p.Link.StartsWith("/") ? p.Link : "/" + p.Link);
+                    else
+                        p.Link = "https://www.ah.nl" + p.Link;
+                }
+
+                // Aldi
+                else if (p.Supermarket.ToLower().Contains("aldi") && !p.Link.StartsWith("http"))
+                {
+                    if (!p.Link.StartsWith("/product"))
+                        p.Link = "https://www.aldi.nl/product" + (p.Link.StartsWith("/") ? p.Link : "/" + p.Link);
+                    else
+                        p.Link = "https://www.aldi.nl" + p.Link;
+                }
+            }
+        }
+
+
     }
 }

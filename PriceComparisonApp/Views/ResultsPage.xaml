@@ -39,10 +39,17 @@
                                                WidthRequest="50"
                                                Aspect="AspectFill"/>
                                         <StackLayout Padding="10">
+                                            <!-- ✅ Clickable Product Name -->
                                             <Label Text="{Binding ProductName}" 
                                                    FontAttributes="Bold" 
                                                    FontSize="16" 
-                                                   TextColor="Black"/>
+                                                   TextColor="Blue"
+                                                   TextDecorations="Underline">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnProductTitleTapped"
+                                                                          CommandParameter="{Binding Link}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
                                             <Label Text="{Binding ProductDetails}" 
                                                    FontSize="14" 
                                                    TextColor="Gray"/>
@@ -77,7 +84,13 @@
                                             <Label Text="{Binding ProductName}" 
                                                    FontAttributes="Bold" 
                                                    FontSize="16" 
-                                                   TextColor="Black"/>
+                                                   TextColor="Blue"
+                                                   TextDecorations="Underline">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnProductTitleTapped"
+                                                                          CommandParameter="{Binding Link}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
                                             <Label Text="{Binding ProductDetails}" 
                                                    FontSize="14" 
                                                    TextColor="Gray"/>
@@ -106,13 +119,19 @@
                                     <StackLayout Orientation="Vertical">
                                         <Image Source="{Binding ImageUrl}"
                                                HeightRequest="50"
-                                                WidthRequest="50"
+                                               WidthRequest="50"
                                                Aspect="AspectFill"/>
                                         <StackLayout Padding="10">
                                             <Label Text="{Binding ProductName}" 
                                                    FontAttributes="Bold" 
                                                    FontSize="16" 
-                                                   TextColor="Black"/>
+                                                   TextColor="Blue"
+                                                   TextDecorations="Underline">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnProductTitleTapped"
+                                                                          CommandParameter="{Binding Link}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
                                             <Label Text="{Binding ProductDetails}" 
                                                    FontSize="14" 
                                                    TextColor="Gray"/>

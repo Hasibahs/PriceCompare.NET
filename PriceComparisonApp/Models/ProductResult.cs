@@ -10,10 +10,10 @@ namespace PriceComparisonApp.Models
         public string ProductName { get; set; } = string.Empty;
         public string ProductDetails { get; set; } = string.Empty;
 
-        // This holds the product URL
-        public string ImageUrl { get; set; } = string.Empty;
+        // ✅ This now holds the clickable product URL
+        public string Link { get; set; } = string.Empty;
 
-        // Command to open the product link in the browser
+        // Optional: command to open product link (can be used in other views)
         public ICommand OpenProductLinkCommand => new Command<string>((url) =>
         {
             if (!string.IsNullOrWhiteSpace(url))
