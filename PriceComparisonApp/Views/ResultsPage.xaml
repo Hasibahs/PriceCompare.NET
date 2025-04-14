@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PriceComparisonApp.Views.ResultsPage"
+    Title="Results"
+    BackgroundColor="#5E7B8C">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <Label Text="Price Comparison Results"
+                   FontSize="22"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Grid with three columns -->
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Column for Jumbo -->
+                <StackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Jumbo" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="White" 
+                           HorizontalOptions="Center"/>
+                    <CollectionView x:Name="JumboCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Padding="0" Margin="5" BackgroundColor="White" CornerRadius="10">
+                                    <StackLayout Orientation="Vertical">
+                                        <Image Source="{Binding ImageUrl}"
+                                               HeightRequest="50"
+                                               WidthRequest="50"
+                                               Aspect="AspectFill"/>
+                                        <StackLayout Padding="10">
+                                            <!-- ✅ Clickable Product Name -->
+                                            <Label Text="{Binding ProductName}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="16" 
+                                                   TextColor="Blue"
+                                                   TextDecorations="Underline">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnProductTitleTapped"
+                                                                          CommandParameter="{Binding Link}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                            <Label Text="{Binding ProductDetails}" 
+                                                   FontSize="14" 
+                                                   TextColor="Gray"/>
+                                            <Label Text="{Binding Price, StringFormat='€{0:F2}'}" 
+                                                   FontSize="14" 
+                                                   TextColor="Green"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!-- Column for Aldi -->
+                <StackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Aldi" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="White" 
+                           HorizontalOptions="Center"/>
+                    <CollectionView x:Name="AldiCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Padding="0" Margin="5" BackgroundColor="White" CornerRadius="10">
+                                    <StackLayout Orientation="Vertical">
+                                        <Image Source="{Binding ImageUrl}"
+                                               HeightRequest="50"
+                                               WidthRequest="50"
+                                               Aspect="AspectFill"/>
+                                        <StackLayout Padding="10">
+                                            <Label Text="{Binding ProductName}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="16" 
+                                                   TextColor="Blue"
+                                                   TextDecorations="Underline">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnProductTitleTapped"
+                                                                          CommandParameter="{Binding Link}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                            <Label Text="{Binding ProductDetails}" 
+                                                   FontSize="14" 
+                                                   TextColor="Gray"/>
+                                            <Label Text="{Binding Price, StringFormat='€{0:F2}'}" 
+                                                   FontSize="14" 
+                                                   TextColor="Green"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+
+                <!-- Column for Albert Heijn -->
+                <StackLayout Grid.Column="2" Spacing="5">
+                    <Label Text="Albert Heijn" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="White" 
+                           HorizontalOptions="Center"/>
+                    <CollectionView x:Name="AHCollectionView">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Padding="0" Margin="5" BackgroundColor="White" CornerRadius="10">
+                                    <StackLayout Orientation="Vertical">
+                                        <Image Source="{Binding ImageUrl}"
+                                               HeightRequest="50"
+                                               WidthRequest="50"
+                                               Aspect="AspectFill"/>
+                                        <StackLayout Padding="10">
+                                            <Label Text="{Binding ProductName}" 
+                                                   FontAttributes="Bold" 
+                                                   FontSize="16" 
+                                                   TextColor="Blue"
+                                                   TextDecorations="Underline">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnProductTitleTapped"
+                                                                          CommandParameter="{Binding Link}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                            <Label Text="{Binding ProductDetails}" 
+                                                   FontSize="14" 
+                                                   TextColor="Gray"/>
+                                            <Label Text="{Binding Price, StringFormat='€{0:F2}'}" 
+                                                   FontSize="14" 
+                                                   TextColor="Green"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Grid>
+
+            <!-- Global Pagination Controls -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                <Button x:Name="previousButton" Text="Previous" Clicked="OnPreviousClicked"/>
+                <Label x:Name="pageLabel" Text="Page 1" VerticalOptions="Center"/>
+                <Button x:Name="nextButton" Text="Next" Clicked="OnNextClicked"/>
+            </StackLayout>
+
+            <Button Text="Back to Search"
+                    BackgroundColor="#FFC300"
+                    TextColor="Black"
+                    CornerRadius="6"
+                    Clicked="OnBackClicked" />
+
+            <Button Text=" View Full Summary"
+                    BackgroundColor="#2196F3"
+                    TextColor="White"
+                    Clicked="OnViewSummaryClicked" />
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PriceComparisonApp.Views.SummaryPage"
+             Title="Price Summary"
+             BackgroundColor="#5E7B8C">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <Label Text=" Price Summary "
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <CollectionView x:Name="SummaryCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame CornerRadius="12" Margin="5" BackgroundColor="White" Padding="15">
+                            <StackLayout>
+                                <Label Text="{Binding Store}"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#2E86C1" />
+                                <Label Text="{Binding MinPrice, StringFormat=' Min: €{0:F2}'}"
+                                       FontSize="16" TextColor="Black" />
+                                <Label Text="{Binding MaxPrice, StringFormat=' Max: €{0:F2}'}"
+                                       FontSize="16" TextColor="Black" />
+                                <Label Text="{Binding AvgPrice, StringFormat=' Avg: €{0:F2}'}"
+                                       FontSize="16" TextColor="Black" />
+                                <Label Text="{Binding Count, StringFormat=' Total: {0} items'}"
+                                       FontSize="16" TextColor="Gray" />
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="⬅️ Back"
+                    BackgroundColor="#FFC300"
+                    TextColor="Black"
+                    CornerRadius="8"
+                    Clicked="OnBackClicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
