@@ -32,7 +32,7 @@
             AutoSize="TextChanges" />
             </Frame>
 
-            <Button Text="🔍 Compare prices"
+            <Button Text=" Compare prices"
                     BackgroundColor="#FFC300"
                     TextColor="Black"
                     CornerRadius="6"

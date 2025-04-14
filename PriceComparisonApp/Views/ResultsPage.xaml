@@ -160,7 +160,7 @@
                     CornerRadius="6"
                     Clicked="OnBackClicked" />
 
-            <Button Text="📊 View Full Summary"
+            <Button Text=" View Full Summary"
                     BackgroundColor="#2196F3"
                     TextColor="White"
                     Clicked="OnViewSummaryClicked" />
