@@ -90,5 +90,12 @@ namespace PriceComparisonApp.Views
                 await DisplayAlert("Missing Link", "This product has no valid link.", "OK");
             }
         }
+
+        private async void OnViewSummaryClicked(object sender, EventArgs e)
+        {
+            var allProducts = jumboResults.Concat(aldiResults).Concat(ahResults).ToList();
+            await Navigation.PushAsync(new SummaryPage(allProducts));
+        }
+
     }
 }
