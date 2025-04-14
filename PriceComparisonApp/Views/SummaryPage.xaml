@@ -22,13 +22,13 @@
                                        FontSize="20"
                                        FontAttributes="Bold"
                                        TextColor="#2E86C1" />
-                                <Label Text="{Binding MinPrice, StringFormat='📉 Min: €{0:F2}'}"
+                                <Label Text="{Binding MinPrice, StringFormat=' Min: €{0:F2}'}"
                                        FontSize="16" TextColor="Black" />
-                                <Label Text="{Binding MaxPrice, StringFormat='📈 Max: €{0:F2}'}"
+                                <Label Text="{Binding MaxPrice, StringFormat=' Max: €{0:F2}'}"
                                        FontSize="16" TextColor="Black" />
-                                <Label Text="{Binding AvgPrice, StringFormat='📊 Avg: €{0:F2}'}"
+                                <Label Text="{Binding AvgPrice, StringFormat=' Avg: €{0:F2}'}"
                                        FontSize="16" TextColor="Black" />
-                                <Label Text="{Binding Count, StringFormat='🧾 Total: {0} items'}"
+                                <Label Text="{Binding Count, StringFormat=' Total: {0} items'}"
                                        FontSize="16" TextColor="Gray" />
                             </StackLayout>
                         </Frame>
